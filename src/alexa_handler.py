@@ -1,5 +1,3 @@
-import json
-
 from utils import (
     build_response,
     build_speechlet_response,
