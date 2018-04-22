@@ -5,4 +5,4 @@ phases:
   build:
     commands:
       - aws cloudformation package --template cloudformation.yaml --s3-bucket $S3_BUCKET --s3-prefix python-alexa --output-template template.yaml
-      - aws cloudformation update-stack --stack-name AlexaPythonHelloWorld --template-body file://template.yaml --role-arn $CF_ROLE
+      - aws cloudformation deploy --stack-name AlexaPythonHelloWorld --template-file template.yaml --role-arn $CF_ROLE
