@@ -51,6 +51,10 @@ Resources:
                   - s3:*
                 Effect: Allow
                 Resource: '*'
+              - Action: iam:PassRole
+                Effect: Allow
+                Resource:
+                  Fn::GetAtt: [CloudFormationRole, Arn]
 
   LambdaPackageJob:
     Type: AWS::CodeBuild::Project
