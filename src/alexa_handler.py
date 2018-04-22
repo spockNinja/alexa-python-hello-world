@@ -9,13 +9,15 @@ def get_welcome_response(session):
     """
     Welcome the user to my python skill
     """
-
     card_title = "Welcome"
-    speech_output = "Welcome to my python skill. You can search for pypi packages. "
+
+    # Alexa thinks pypi should be pronounced "pippy" -- so we'll spell out "pie pie"
+    # We could also use SSML and give her phonetic details, but this is easy enough
+    speech_output = "Welcome to my python skill. You can search for pie pie packages. "
 
     # If the user either does not reply to the welcome message or says something
     # that is not understood, they will be prompted again with this text.
-    reprompt_text = "Ask me to search pypi for a package. "
+    reprompt_text = "Ask me to search pie pie for a package. "
 
     session_attributes = session.get('attributes', {})
 
