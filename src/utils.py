@@ -16,8 +16,8 @@ def build_speechlet_response(title, output, reprompt_text=None, should_end_sessi
         },
         'card': {
             'type': 'Simple',
-            'title': "Zork: " + title,
-            'content': "Zork: " + output
+            'title': "MyPythonSkill: " + title,
+            'content': "MyPythonSKill: " + output
         },
         'reprompt': {
             'outputSpeech': {
