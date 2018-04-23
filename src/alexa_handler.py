@@ -39,15 +39,15 @@ def search_results(intent, session):
 
     query = intent['slots']['query']['value']
 
-    repositories = search_repositories(query)
+    results = search_repositories(query)
 
     card_title = "Search Results for " + query
 
-    if repositories:
-        top_repo = repositories[0]
+    if results['items']:
+        top_repo = results['items'][0]
         speech_output_fmt = "I found {0} results. The top hit is {1} by {2}. "
         speech_output = speech_output_fmt.format(
-            len(repositories),
+            results['total_count'],
             top_repo['name'],
             top_repo['owner']['login']
         )
