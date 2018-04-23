@@ -1,8 +1,16 @@
+
+from api import (
+    search_repositories
+)
+
 from utils import (
     build_response,
     build_speechlet_response,
     log
 )
+
+
+APP_ID = os.getenv('ALEXA_APP_ID', None)
 
 
 def get_welcome_response(session):
@@ -11,13 +19,11 @@ def get_welcome_response(session):
     """
     card_title = "Welcome"
 
-    # Alexa thinks pypi should be pronounced "pippy" -- so we'll spell out "pie pie"
-    # We could also use SSML and give her phonetic details, but this is easy enough
-    speech_output = "Welcome to my python skill. You can search for pie pie packages. "
+    speech_output = "Welcome to my python skill. You can search for GitHub repositories. "
 
     # If the user either does not reply to the welcome message or says something
     # that is not understood, they will be prompted again with this text.
-    reprompt_text = "Ask me to search pie pie for a package. "
+    reprompt_text = "Ask me to search GitHub for a repository. "
 
     session_attributes = session.get('attributes', {})
 
@@ -27,6 +33,35 @@ def get_welcome_response(session):
         reprompt_text
     )
     return build_response(session_attributes, speechlet_response)
+
+
+def search_results(intent, session):
+    """
+    Search GitHub for the intent's query slot
+    """
+
+    query = intent['slots']['query']['value']
+
+    repositories = search_repositories(query)
+
+    card_title = "Search Results for " + query
+
+    if repositories:
+        top_repo = repositories[0]
+        speech_output_fmt = "I found {0} results. The top hit is {1} by {2}. "
+        speech_output = speech_output_fmt.format(
+            len(repositories),
+            top_repo['name'],
+            top_repo['owner']['login']
+        )
+    else:
+        speech_output = "I couldn't find any repositories matching " + query
+
+    speechlet_response = build_speechlet_response(
+        card_title,
+        speech_output
+    )
+    return build_response(session.get('attributes', {}), speechlet_response)
 
 
 def handle_session_end_request():
@@ -71,7 +106,9 @@ def on_intent(intent_request, session):
     intent_name = intent_request['intent']['name']
 
     # Dispatch to your skill's intent handlers
-    if intent_name == "AMAZON.HelpIntent":
+    if intent_name == "SearchGitHub":
+        return search_results(intent, session)
+    elif intent_name == "AMAZON.HelpIntent":
         return get_welcome_response(session)
     elif intent_name in ["AMAZON.CancelIntent", "AMAZON.StopIntent", "AMAZON.PauseIntent"]:
         return handle_session_end_request()
