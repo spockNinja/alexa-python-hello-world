@@ -10,9 +10,6 @@ from utils import (
 )
 
 
-APP_ID = os.getenv('ALEXA_APP_ID', None)
-
-
 def get_welcome_response(session):
     """
     Welcome the user to my python skill
