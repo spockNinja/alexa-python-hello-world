@@ -13,7 +13,7 @@ Now we can really have some fun!
 
 1. Get yourself a virtual environment for this project.
 2. `pip install -r requirements-dev.txt`
-3. `aws cloudformation create-stack --stack-name PythonAlexaDevResources --template-body file://development-resources.txt --capabilities CAPABILITY_IAM`
+3. `aws cloudformation create-stack --stack-name PythonAlexaDevResources --template-body file://development-resources.yaml --capabilities CAPABILITY_IAM`
 4. In the AWS console, run the newly created CodeBuild job (should have "LambdaPackageJob" in the name)
 5. Copy the ARN for the newly created Lambda function (should have "AlexaLambdaHandler" in the name)
 6. Log in to the [ASK portal](https://developer.amazon.com/alexa/console/ask).
